@@ -1,0 +1,112 @@
+---
+title: "Activity 7: Computational thinking 1: functions and iteration"
+subtitle: Jan. 28th, 2026, Calvin Munson
+format: gfm
+execute:
+  warning: false
+editor: source
+---
+
+# Overview
+
+Welcome! This is the first "computational thinking" lesson, which is about two
+topics: writing your own functions and performing iterations.
+
+### Functions:
+
+
+
+
+### Iteration:
+
+
+------------------------------------------------------------------------
+
+You will submit two outputs for this activity:
+
+1.  A **PDF** of a rendered Quarto document with all of your R code.
+    Please create a new Quarto document (e.g. don't use this
+    `README.qmd`), include all of the code that appears in this
+    document, in addition to adding your own code and **answers to all
+    of the questions** in the "Q#" sections. Submit this through
+    Gradescope.
+
+2.  A plot and your answers from the final "Energy production" section.
+    Submit that content to the google slide below:
+    <https://docs.google.com/presentation/d/1AJVu0eq5-OoRGi4UlBervrqKbFHOINvAB-8u0JaFzYM/edit?usp=sharing>
+
+*If you have trouble submitting as a PDF, please ask Calvin or Malin for
+help. If we still can't solve it, you can submit the .qmd file instead.*
+
+A reminder: **Please label the code** in your final submission in two
+ways: 1) denote your answers to each question using headers that
+correspond to the question you're answering and 2) thoroughly "comment"
+your code: remember, this means annotating your code directly by typing
+descriptions of what each line does after a `#`. This will help future
+you!
+
+------------------------------------------------------------------------
+
+Let's start by reading in the relevant packages
+
+```{r}
+library(tidyverse)
+library(here)
+
+```
+
+------------------------------------------------------------------------
+
+
+# 1. Functions
+
+Functions take the form of
+
+```default
+my.function  <- function(arg1, arg2, ... ){
+
+  the function's code (body) is nestled between curly braces
+  
+  return(object)
+  
+}
+
+```
+
+
+To create a function, we start by assigning the function a name with the assignment operator, such as my.function <-. This names the function; if the name is omitted, the function is called an anonymous function (functions without names). To save a function, it must be named.
+
+Then, we use the function function (you read that correctly!) to tell R it will be a function. We list the arguments in our function between parentheses and include any default values. These are the function’s inputs. Then, in between two curly braces { }, we enter R code that tells R what to do with the inputs, and what to return to the function user (the output).
+
+-------
+
+## 1.1 Working with single values as input
+
+
+
+-------
+
+## 1.2 Working with vectors as input
+
+-------
+
+## 1.3 Working with data frames as input
+
+-------
+
+# 2. Iteration
+
+-------
+
+
+## 2.1 For-loops
+
+-------
+
+## 2.2 Across
+
+-------
+
+# 3. Using LLMs to get R help
+
+-------
