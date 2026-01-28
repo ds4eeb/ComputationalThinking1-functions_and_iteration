@@ -74,7 +74,7 @@ Let’s start out with a very simple mathematical example and write a
 function that takes a number as input, adds 1 to that number, and then
 returns that new output to us.
 
-- Let’s call the function `add_one`.
+- Let’s name the function `add_one`.
 - Within the brackets of the function, we will supply only one argument:
   `x`. `x` will be the number that gets taken in as input.
 - Within the curly brackets, we will tell the function what to do with
@@ -115,7 +115,8 @@ Our very first homemade function! Nice!
 
 Let’s make this a little more complicated and add in a second argument.
 This function will take two numbers as input and add them together.
-Let’s call those arguments `x` and `y`. Separate them with a comma.
+Let’s call those arguments `x` and `y`. Separate them with a comma
+within the `function()` function.
 
 ``` r
 # Create a new function called add_together
@@ -155,7 +156,7 @@ Important for QMD: When you try to render this document, Quarto will get
 mad that you’re running code that doesn’t work. In the code chunk where
 you add together 3 and “five”, substitute the `{r}` for `{r eval=FALSE}`
 so that it does not evaluate this chunk of code (click “Source” instead
-of “Visual” in the top right of the document in order to see the `{r}`)
+of “Visual” in the top left of the document in order to see the `{r}`)
 
 ``` r
 add_together(3,"five")
@@ -282,10 +283,6 @@ We’ve already done this in a couple ways:
 - facet_wrap() and facet_grid() draws a plot for each subset variable.
 - group_by() plus summarize() computes summary statistics for each
   grouped variable.
-
-------------------------------------------------------------------------
-
-## For-loops
 
 ------------------------------------------------------------------------
 
@@ -442,6 +439,12 @@ Read in the `cereal` data that we worked with back in the first data
 wrangling lesson. It is already stored in the `data` folder of this
 repository. Group the data by manufacturer and calculate a mean value
 for all of the numeric columns in that dataset.
+
+------------------------------------------------------------------------
+
+## For-loops
+
+Simulate data using a for-loop
 
 ------------------------------------------------------------------------
 

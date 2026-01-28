@@ -56,7 +56,7 @@ Then, we use the `function()` function (yes, there's a function called `function
 
 Let's start out with a very simple mathematical example and write a function that takes a number as input, adds 1 to that number, and then returns that new output to us.
 
--   Let's call the function `add_one`.
+-   Let's name the function `add_one`.
 -   Within the brackets of the function, we will supply only one argument: `x`. `x` will be the number that gets taken in as input.
 -   Within the curly brackets, we will tell the function what to do with `x`. In this case, we will add 1 to it and store it as a data object called `output`.
 -   Lastly, let's tell the function to return our `output`, aka just print out the results that are stored in the data object
@@ -87,7 +87,7 @@ add_one(x = 10)
 
 Our very first homemade function! Nice!
 
-Let's make this a little more complicated and add in a second argument. This function will take two numbers as input and add them together. Let's call those arguments `x` and `y`. Separate them with a comma.
+Let's make this a little more complicated and add in a second argument. This function will take two numbers as input and add them together. Let's call those arguments `x` and `y`. Separate them with a comma within the `function()` function.
 
 ```{r}
 # Create a new function called add_together
@@ -117,7 +117,7 @@ add_together(3,5)
 
 What happens if a function receives unexpected input? Feed our new function `add_together()` 3 and "five" instead of 3 and 5. Copy and paste the error code you receive and describe what you think it's telling you.
 
-Important for QMD: When you try to render this document, Quarto will get mad that you're running code that doesn't work. In the code chunk where you add together 3 and "five", substitute the `{r}` for `{r eval=FALSE}` so that it does not evaluate this chunk of code (click "Source" instead of "Visual" in the top right of the document in order to see the `{r}`)
+Important for QMD: When you try to render this document, Quarto will get mad that you're running code that doesn't work. In the code chunk where you add together 3 and "five", substitute the `{r}` for `{r eval=FALSE}` so that it does not evaluate this chunk of code (click "Source" instead of "Visual" in the top left of the document in order to see the `{r}`)
 
 ```{r eval=FALSE}
 add_together(3,"five")
@@ -226,10 +226,6 @@ Iteration is repeatedly performing the same action on different objects. We've a
 
 ------------------------------------------------------------------------
 
-## For-loops
-
-------------------------------------------------------------------------
-
 ## Across
 
 Let's look at the built-in iris morphometric data. Take a look at the help page to familiarize yourself with the columns. 
@@ -324,6 +320,15 @@ Read in the `cereal` data that we worked with back in the first data wrangling l
 
 
 --------
+
+## For-loops
+
+Simulate data using a for-loop
+
+
+
+------------------------------------------------------------------------
+
 
 # 3. Using LLMs to get R help
 
