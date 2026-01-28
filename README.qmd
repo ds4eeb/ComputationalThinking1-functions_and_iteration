@@ -39,10 +39,10 @@ Functions take the form of
 ``` default
 my.function  <- function(arg1, arg2, ... ){
 
-  the function's code (body) is nestled between curly braces
-  
-  return(object)
-  
+the function's code (body) is nestled between curly braces
+
+return(object)
+
 } 
 ```
 
@@ -65,7 +65,7 @@ Let's start out with a very simple mathematical example and write a function tha
 # Create a new function called add_one
 # x will be the only input to the function
 add_one  <- function(x){
-
+  
   # Add x and 1 together, store as the object "output"
   output <- x + 1
   
@@ -93,7 +93,7 @@ Let's make this a little more complicated and add in a second argument. This fun
 # Create a new function called add_together
 # x and y will be the two arguments to the function
 add_together  <- function(x, y){
-
+  
   # Add x and y together, store as the object "output"
   output <- x + y
   
@@ -141,7 +141,7 @@ Then, run that equation with `x = 5`, `y = 2`, and `z = 9`. What is the output?
 
 ```{r}
 math_time  <- function(x, y, z){
-
+  
   # Add x and y together, store as the object "output"
   output <- (x - y)^2/z
   
@@ -166,7 +166,7 @@ Just like before, we tell the function what we want our argument(s) to be. Let's
 ```{r}
 # Create a function called lbs_to_kg that takes a data object 'weights' as input
 lbs_to_kg  <- function(weights){
-
+  
   # Multiply weights by 0.454, store as the object "output"
   output <- weights*0.454
   
@@ -323,13 +323,171 @@ Read in the `cereal` data that we worked with back in the first data wrangling l
 
 ## For-loops
 
-Simulate data using a for-loop
+
+### Loop through a simple equation
+
+The most commonly used loop structure when you want to repeat a task a defined number of times is the for loop. The most basic example of a for loop is:
+
+```{r}
+for (i in 1:5) {
+  # Print out whatever the value of i is
+  print(i)
+}
+```
+
+This is a dynamic bit of code where an "index" `i` is iteratively replaced by each value in the vector `1:5`. To dissect it: because the first value in our sequence (1:5) is 1, the loop starts by replacing i with 1 and runs everything between the { }. Loops typically use i as the counter, short for iteration, but you are free to use whatever you like, such as `x`, `number`, or `rhubarb`.
+
+We could do this all manually of course. To manually run the first two iterations of the loop, we would run:
+
+```{r}
+# First iteration where i = 1:
+i <- 1
+print(i)
+```
+
+
+```{r}
+# Second iteration where i = 2
+i <- 2
+print(i)
+```
+
+The for loop makes this all automated though, and loops through the number of values we tell it to, in this case, 5 values.
+
+We can make things a little more complex; let's multiply our i value by 2
+
+```{r}
+for (i in 1:5) {
+  print(i*2)
+}
+```
+
+As with before, the for loop starts with `i = 1` and runs what we tell it to. When `i = 1`, it prints out `i*2`, which equals 2. Then, when `i = 2`, it prints out `i*2`, which equals 4, and so forth.
+
+-----
+
+### Q2.4 Create a for loop that iterates from 1 to 10 and squares the value of the index `i`
+
+Create a for loop that iterates from 1 to 10 and squares the value of the index `i`, then prints out that output
+
+```{r}
+
+```
+
+
+----------
+
+### Simulate data using a for-loop
+
+One fun way we can use a for loop is by iteratively simulating data. Let's simulate population growth using the equation:
+
+$ N[t] = N[t - 1] * lambda$
+
+The population at time `t` is `N[t]`, and we can calculate it by taking the population from the previous time step `t-1`, which is equal to `N[t-1]`, and multiplying that by a growth rate `lambda`. Think of this as if you had 100 individuals in time `t-1` and you population was growing by 20%, `lambda` would equal 1.2, so your poplation at time `t` would be: `100*1.2 = 120`. Let's simulate this over 20 time steps.
+
+
+```{r}
+N0 = 100  #initial population size
+
+years = 20  #number of years into the future
+
+N = vector(length = years)  # create an empty vector to store pop. sizes
+
+N[1] = N0  #initial population size should be the first N
+
+lambda = 1.2  #growth rate
+```
+
+Let's look at that vector we created:
+
+```{r}
+print(N)
+```
+
+We can see that the first value is 100, since we assigned `N[1]` to be 100, but all the rest are zeroes. The for loop will iterate from the second value through the the number of years (20) and fill in the rest!
+
+When we use square brackets after a vector, e.g. `N[5]`, we are able to reference that element of the vector, in this case the 5th value in vector N. Just to demonstrate, if we now ask for the 5th element in vector `N`, we will get zero, whereas if we ask for the first, we will get 300
+
+```{r}
+N[5]
+```
+
+```{r}
+N[1]
+```
+
+
+Now we will start the for loop: Here we say that element number "t" in the vector N will equal the previous year's N multiplied by lambda. For instance, in year `t = 5`,  the newly created population value in year 5 will equal the population in year `t = 4` times `lambda`. 
+
+```{r}
+# For every year t in 2 through 20 (remember, "years" also equals 20), apply the following equation
+for (t in 2:20) {
+  N[t] = N[t - 1] * lambda # Apply the equation
+}
+```
+
+Now let's check out what N looks like
+
+```{r}
+N
+```
+
+Nice, it's all filled in! Let's create a datframe from this data and plot it to look at
+
+```{r}
+# Store the data output as a dataframe for plotting
+popn_data <- tibble(years = 1:years, # Make the years column = 1, 2, 3, ..., 20
+                    popn = N) # Make the population column the corresponding population that we calculated
+```
+
+
+```{r}
+# Now plot the data with years on the x axis and population on the y
+popn_data %>% 
+  ggplot(aes(x = years, y = popn)) +
+  geom_point()
+
+```
+
+------
+
+### Q2.5 Rerun the for loop with the following parameters:
+
+Copy and paste the for loop from above, but change the initial parameters so that:
+
+-   The initial population size = 300
+-   The growth rate = 0.95
+-   The number of years to iterate over = 50
+
+Plot your data and describe how the population is changing.
+
+```{r}
+N0 = 300  #initial population size
+
+years = 50  #number of years into the future
+
+N = vector(length = years)  # create an empty vector to store pop. sizes
+
+N[1] = N0  #initial population size should be the first N
+
+lambda = 0.95  #growth rate
+
+for (t in 2:50) {
+  N[t] = N[t - 1] * lambda # Apply the equation
+}
+
+```
+
+
+
+------
+
+### Loop through data frames
+
+Lastly, I want to demonstrate how to loop through dataframes
 
 
 
 ------------------------------------------------------------------------
 
 
-# 3. Using LLMs to get R help
-
-------------------------------------------------------------------------
