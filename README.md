@@ -6,8 +6,8 @@ Activity 7: Computational thinking 1: functions and iteration
 Welcome! This is the first “computational thinking” lesson, which is
 about two topics: writing your own functions and performing iterations.
 I will go over very basic examples of each, but know that these are
-topics that are very useful if when thinking about using R for
-“programming” sorts of tasks.
+topics that will be very useful if using R for “programming” sorts of
+tasks.
 
 ------------------------------------------------------------------------
 
@@ -66,23 +66,20 @@ These are the function’s inputs. Then, in between two curly braces { },
 we enter R code that tells R what to do with the inputs, and what to
 return to the function user (the output).
 
-## Working with single values as input
-
 ------------------------------------------------------------------------
+
+## Working with single values as input
 
 Let’s start out with a very simple mathematical example and write a
 function that takes a number as input, adds 1 to that number, and then
 returns that new output to us.
 
 - Let’s call the function `add_one`.
-
 - Within the brackets of the function, we will supply only one argument:
   `x`. `x` will be the number that gets taken in as input.
-
 - Within the curly brackets, we will tell the function what to do with
   `x`. In this case, we will add 1 to it and store it as a data object
   called `output`.
-
 - Lastly, let’s tell the function to return our `output`, aka just print
   out the results that are stored in the data object
 
@@ -313,17 +310,17 @@ head(iris)
 
 ------------------------------------------------------------------------
 
-Let’s say that we want to calculate means for all four of these columns,
-seprately for each species. In the last lesson I asked you to first
-pivot these variables to long format, and then grouped those variables
-and summarized them to calculate a mean, but sometimes having the
-columns pivoted all together in a single column doesn’t make sense. For
-instance, here, we might want `Petal.length` and `Petal.width` to be
-distinct columns that can be related to one another (for instance in a
-graph) comparing the two).
+Let’s say that we want to calculate means for all four of these columns
+separately for each species. In the last lesson I asked you to first
+pivot the energy source columns to long format, and then group those
+variables and summarize them to calculate a mean. However, sometimes
+having the columns pivoted all together in a single column doesn’t make
+sense. For instance, here, we might want `Petal.length` and
+`Petal.width` to be distinct columns that can be related to one another
+(for instance in a graph comparing the two).
 
-We could summarize each column separately by typing out the equation for
-each column:
+One option is summarize each column separately by typing out the
+equation for each column:
 
 ``` r
 iris %>% 
@@ -366,7 +363,8 @@ iris %>%
 
 As a sneaky shortcut, you can also say `Sepal.Length:Petal.Width` to
 indicate that you want to iterate across all columns from `Sepal.Length`
-to `Petal.Width`.
+to `Petal.Width`. (It also works if you specify column number instead of
+column name, such as `1:4`)
 
 ``` r
 iris %>%
@@ -383,7 +381,7 @@ iris %>%
     3 virginica          6.59        2.97         5.55       2.03 
 
 There are two additional selection techniques that are particularly
-useful for `across()`: `everything()` and `where()`. everything() is
+useful for `across()`: `everything()` and `where()`. `everything()` is
 straightforward: it selects every (non-grouping) column:
 
 ``` r
@@ -400,16 +398,21 @@ iris %>%
     2 versicolor         5.94        2.77         4.26       1.33 
     3 virginica          6.59        2.97         5.55       2.03 
 
-Note grouping column(s) (`Species`) are not included in `across()`,
-because they’re automatically preserved by `summarize()`.
-
-### Q2.2 Summarize to calculate the median across all columns
-
-Question text here
+Note the grouping column(s) (in this case `Species`) are not included in
+`across()`, because they’re automatically preserved by `summarize()`.
 
 ------------------------------------------------------------------------
 
-`where()` allows you to select columns based on their type:
+### Q2.2 Summarize to calculate the median across all columns
+
+Group the `iris` data by `species` and calculate a `median` across all
+of the columns. What function do you think you should use to calculate a
+median?
+
+------------------------------------------------------------------------
+
+`where()` is another way to select columns, and allows you to select
+columns based on their type:
 
 - `where(is.numeric)` selects all numeric columns.
 - `where(is.character)` selects all string columns.
@@ -435,9 +438,10 @@ iris %>%
 
 ### Q2.3 Summarize to calculate the mean across all numeric columns in the cereal data
 
-Read in the cereal data that we worked with back in the first data
-wrangling lesson. Group the data by manufacturer and calculate a mean
-value for all of the numeric columns in that dataset
+Read in the `cereal` data that we worked with back in the first data
+wrangling lesson. It is already stored in the `data` folder of this
+repository. Group the data by manufacturer and calculate a mean value
+for all of the numeric columns in that dataset.
 
 ------------------------------------------------------------------------
 
