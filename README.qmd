@@ -326,7 +326,9 @@ Read in the `cereal` data that we worked with back in the first data wrangling l
 
 ### Loop through a simple equation
 
-The most commonly used loop structure when you want to repeat a task a defined number of times is the for loop. The most basic example of a for loop is:
+A commonly used method of coding when you want to repeat a task a defined number of times is the for loop. We have been teaching you how to code largely using `tidyverse` functions; for loops are not particularly common when using `tidyverse` because the creators of it built functions that allow us to do the same or similar iterative tasks in more intuitive ways. For instance, `across()` from above, as well as `group_by()`/`summarize()` and `facet_wrap()` can accomplish what used to be only doable with for loops (or writing your own functions).Despite this, for loops are a fundamental part of all coding languages, and so we will introduce them here!
+
+The most basic example of a for loop is:
 
 ```{r}
 for (i in 1:5) {
@@ -335,7 +337,7 @@ for (i in 1:5) {
 }
 ```
 
-This is a dynamic bit of code where an "index" `i` is iteratively replaced by each value in the vector `1:5`. To dissect it: because the first value in our sequence (1:5) is 1, the loop starts by replacing i with 1 and runs everything between the { }. Loops typically use i as the counter, short for iteration, but you are free to use whatever you like, such as `x`, `number`, or `rhubarb`.
+This is a dynamic bit of code where an "index" `i` is iteratively replaced by each value in the vector `1:5` (which is 1, 2, 3, 4, 5). To dissect what the loop is doing: because the first value in our sequence `1:5` is 1, the loop starts by replacing i with 1 and runs everything between the { }. Loops typically use i as the counter, short for iteration, but you are free to use whatever you like, such as `x`, `number`, or `rhubarb`.
 
 We could do this all manually of course. To manually run the first two iterations of the loop, we would run:
 
@@ -484,10 +486,111 @@ for (t in 2:50) {
 
 ### Loop through data frames
 
-Lastly, I want to demonstrate how to loop through dataframes
+Lastly, I want to demonstrate how to loop through dataframes in a couple different ways. Up above, we were referencing certain  elements of a vector by index, aka by which number element it was (e.g. `N[5]` is the 5th element in the vector N). Vectors are one dimensional, so you can access any element within it with just one number. Data frames, however, are two dimensional: they have both rows and columns. Let's check out the `iris` data again:
 
+```{r}
+head(iris)
+```
 
+If we apply square brackets to the dataframe to extract elements, we can apply 1 or 2 numbers within them to reference either rows, columns, or both. This takes to form of: `data[row#, column#]`. If we want to access just a row, we leave the column number blank, and vice versa.
+
+For instance, to get the first row:
+
+```{r}
+iris[1,]
+```
+To get the data in the third column (which will print out as a vector):
+
+```{r}
+iris[,3]
+
+```
+
+And to get the exact value in the cell in the 1st row and 3rd column:
+
+```{r}
+iris[1,3]
+```
+
+We can replace all of these numbers with the `i` index to iteratively perform some action on a number of rows or columns that we want. 
+
+For instance, let's print out all of the values for each column, 1 through 5. I've added a little bit of text that will print out to tell us what column we're on
+
+```{r}
+for (i in 1:5) {
+  
+  # This prints out a statement saying "Here's column i", but the i gets replaced with the number that it's currently at
+  print(paste("Here's column",i))
+  
+  # This prints out column i
+  print(iris[,i])
+}
+```
+
+We can expand this by performing some sort of operation on the columns that we are extracting. Let's now take the mean of each column before printing it, but this time only iterate up to i = 4, since we know that column 5 i the column with species names in them:
+
+```{r}
+for (i in 1:4) {
+  
+  # This prints out a statement saying "Here's column i", but the i gets replaced with the number that it's currently at
+  print(paste("Here's column",i))
+  
+  # This prints out column i
+  print(mean(iris[,i]))
+}
+```
+
+Now we have a mean value for every column. We could have easily done this with our across function too:
+
+```{r}
+iris %>% 
+    summarize(across(.cols = 1:4, 
+                   .fns = mean))
+```
+
+### Q2.6 Which do you prefer?
+
+Which makes more sense to you: summarizing with a for loop or with the summarize/across functions?
+
+------------
+
+A nice thing to remember with for loops is that you can do many things within the loop. For instance, here I will create a vector of column names and print out the "i"th element. Since i is going to equal the same number when I print out the column name vs the column values, it will match up nicely.
+
+```{r}
+for (i in 1:4) {
+  # Fetch the column names of the dataframe, store in a vector "names"
+  names <- colnames(iris)
+  
+  # Print out the "i"th element of the vector to print alongside the output
+  print(names[i])
+  
+  # This prints out column i
+  print(mean(iris[,i]))
+}
+```
 
 ------------------------------------------------------------------------
 
+```{r}
 
+# Create a vector of species names
+spp_names <- unique(iris$Species)
+
+for (i in 1:length(spp_names)) {
+  
+filt_data <- iris %>% 
+  filter(Species == spp_names[i])
+
+filt_data %>% 
+  ggplot(aes(x = Petal.Length,
+             y = Petal.Width)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  lims(x = c(0,8),
+       y = c(0,3))
+
+print(head(filt_data))
+  
+}
+
+```

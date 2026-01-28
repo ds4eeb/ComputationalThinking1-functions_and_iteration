@@ -446,9 +446,18 @@ for all of the numeric columns in that dataset.
 
 ### Loop through a simple equation
 
-The most commonly used loop structure when you want to repeat a task a
-defined number of times is the for loop. The most basic example of a for
-loop is:
+A commonly used method of coding when you want to repeat a task a
+defined number of times is the for loop. We have been teaching you how
+to code largely using `tidyverse` functions; for loops are not
+particularly common when using `tidyverse` because the creators of it
+built functions that allow us to do the same or similar iterative tasks
+in more intuitive ways. For instance, `across()` from above, as well as
+`group_by()`/`summarize()` and `facet_wrap()` can accomplish what used
+to be only doable with for loops (or writing your own functions).Despite
+this, for loops are a fundamental part of all coding languages, and so
+we will introduce them here!
+
+The most basic example of a for loop is:
 
 ``` r
 for (i in 1:5) {
@@ -464,11 +473,12 @@ for (i in 1:5) {
     [1] 5
 
 This is a dynamic bit of code where an “index” `i` is iteratively
-replaced by each value in the vector `1:5`. To dissect it: because the
-first value in our sequence (1:5) is 1, the loop starts by replacing i
-with 1 and runs everything between the { }. Loops typically use i as the
-counter, short for iteration, but you are free to use whatever you like,
-such as `x`, `number`, or `rhubarb`.
+replaced by each value in the vector `1:5` (which is 1, 2, 3, 4, 5). To
+dissect what the loop is doing: because the first value in our sequence
+`1:5` is 1, the loop starts by replacing i with 1 and runs everything
+between the { }. Loops typically use i as the counter, short for
+iteration, but you are free to use whatever you like, such as `x`,
+`number`, or `rhubarb`.
 
 We could do this all manually of course. To manually run the first two
 iterations of the loop, we would run:
@@ -650,6 +660,264 @@ for (t in 2:50) {
 
 ### Loop through data frames
 
-Lastly, I want to demonstrate how to loop through dataframes
+Lastly, I want to demonstrate how to loop through dataframes in a couple
+different ways. Up above, we were referencing certain elements of a
+vector by index, aka by which number element it was (e.g. `N[5]` is the
+5th element in the vector N). Vectors are one dimensional, so you can
+access any element within it with just one number. Data frames, however,
+are two dimensional: they have both rows and columns. Let’s check out
+the `iris` data again:
+
+``` r
+head(iris)
+```
+
+      Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+    1          5.1         3.5          1.4         0.2  setosa
+    2          4.9         3.0          1.4         0.2  setosa
+    3          4.7         3.2          1.3         0.2  setosa
+    4          4.6         3.1          1.5         0.2  setosa
+    5          5.0         3.6          1.4         0.2  setosa
+    6          5.4         3.9          1.7         0.4  setosa
+
+If we apply square brackets to the dataframe to extract elements, we can
+apply 1 or 2 numbers within them to reference either rows, columns, or
+both. This takes to form of: `data[row#, column#]`. If we want to access
+just a row, we leave the column number blank, and vice versa.
+
+For instance, to get the first row:
+
+``` r
+iris[1,]
+```
+
+      Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+    1          5.1         3.5          1.4         0.2  setosa
+
+To get the data in the third column (which will print out as a vector):
+
+``` r
+iris[,3]
+```
+
+      [1] 1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 1.5 1.6 1.4 1.1 1.2 1.5 1.3 1.4
+     [19] 1.7 1.5 1.7 1.5 1.0 1.7 1.9 1.6 1.6 1.5 1.4 1.6 1.6 1.5 1.5 1.4 1.5 1.2
+     [37] 1.3 1.4 1.3 1.5 1.3 1.3 1.3 1.6 1.9 1.4 1.6 1.4 1.5 1.4 4.7 4.5 4.9 4.0
+     [55] 4.6 4.5 4.7 3.3 4.6 3.9 3.5 4.2 4.0 4.7 3.6 4.4 4.5 4.1 4.5 3.9 4.8 4.0
+     [73] 4.9 4.7 4.3 4.4 4.8 5.0 4.5 3.5 3.8 3.7 3.9 5.1 4.5 4.5 4.7 4.4 4.1 4.0
+     [91] 4.4 4.6 4.0 3.3 4.2 4.2 4.2 4.3 3.0 4.1 6.0 5.1 5.9 5.6 5.8 6.6 4.5 6.3
+    [109] 5.8 6.1 5.1 5.3 5.5 5.0 5.1 5.3 5.5 6.7 6.9 5.0 5.7 4.9 6.7 4.9 5.7 6.0
+    [127] 4.8 4.9 5.6 5.8 6.1 6.4 5.6 5.1 5.6 6.1 5.6 5.5 4.8 5.4 5.6 5.1 5.1 5.9
+    [145] 5.7 5.2 5.0 5.2 5.4 5.1
+
+And to get the exact value in the cell in the 1st row and 3rd column:
+
+``` r
+iris[1,3]
+```
+
+    [1] 1.4
+
+We can replace all of these numbers with the `i` index to iteratively
+perform some action on a number of rows or columns that we want.
+
+For instance, let’s print out all of the values for each column, 1
+through 5. I’ve added a little bit of text that will print out to tell
+us what column we’re on
+
+``` r
+for (i in 1:5) {
+  
+  # This prints out a statement saying "Here's column i", but the i gets replaced with the number that it's currently at
+  print(paste("Here's column",i))
+  
+  # This prints out column i
+  print(iris[,i])
+}
+```
+
+    [1] "Here's column 1"
+      [1] 5.1 4.9 4.7 4.6 5.0 5.4 4.6 5.0 4.4 4.9 5.4 4.8 4.8 4.3 5.8 5.7 5.4 5.1
+     [19] 5.7 5.1 5.4 5.1 4.6 5.1 4.8 5.0 5.0 5.2 5.2 4.7 4.8 5.4 5.2 5.5 4.9 5.0
+     [37] 5.5 4.9 4.4 5.1 5.0 4.5 4.4 5.0 5.1 4.8 5.1 4.6 5.3 5.0 7.0 6.4 6.9 5.5
+     [55] 6.5 5.7 6.3 4.9 6.6 5.2 5.0 5.9 6.0 6.1 5.6 6.7 5.6 5.8 6.2 5.6 5.9 6.1
+     [73] 6.3 6.1 6.4 6.6 6.8 6.7 6.0 5.7 5.5 5.5 5.8 6.0 5.4 6.0 6.7 6.3 5.6 5.5
+     [91] 5.5 6.1 5.8 5.0 5.6 5.7 5.7 6.2 5.1 5.7 6.3 5.8 7.1 6.3 6.5 7.6 4.9 7.3
+    [109] 6.7 7.2 6.5 6.4 6.8 5.7 5.8 6.4 6.5 7.7 7.7 6.0 6.9 5.6 7.7 6.3 6.7 7.2
+    [127] 6.2 6.1 6.4 7.2 7.4 7.9 6.4 6.3 6.1 7.7 6.3 6.4 6.0 6.9 6.7 6.9 5.8 6.8
+    [145] 6.7 6.7 6.3 6.5 6.2 5.9
+    [1] "Here's column 2"
+      [1] 3.5 3.0 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 3.7 3.4 3.0 3.0 4.0 4.4 3.9 3.5
+     [19] 3.8 3.8 3.4 3.7 3.6 3.3 3.4 3.0 3.4 3.5 3.4 3.2 3.1 3.4 4.1 4.2 3.1 3.2
+     [37] 3.5 3.6 3.0 3.4 3.5 2.3 3.2 3.5 3.8 3.0 3.8 3.2 3.7 3.3 3.2 3.2 3.1 2.3
+     [55] 2.8 2.8 3.3 2.4 2.9 2.7 2.0 3.0 2.2 2.9 2.9 3.1 3.0 2.7 2.2 2.5 3.2 2.8
+     [73] 2.5 2.8 2.9 3.0 2.8 3.0 2.9 2.6 2.4 2.4 2.7 2.7 3.0 3.4 3.1 2.3 3.0 2.5
+     [91] 2.6 3.0 2.6 2.3 2.7 3.0 2.9 2.9 2.5 2.8 3.3 2.7 3.0 2.9 3.0 3.0 2.5 2.9
+    [109] 2.5 3.6 3.2 2.7 3.0 2.5 2.8 3.2 3.0 3.8 2.6 2.2 3.2 2.8 2.8 2.7 3.3 3.2
+    [127] 2.8 3.0 2.8 3.0 2.8 3.8 2.8 2.8 2.6 3.0 3.4 3.1 3.0 3.1 3.1 3.1 2.7 3.2
+    [145] 3.3 3.0 2.5 3.0 3.4 3.0
+    [1] "Here's column 3"
+      [1] 1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 1.5 1.6 1.4 1.1 1.2 1.5 1.3 1.4
+     [19] 1.7 1.5 1.7 1.5 1.0 1.7 1.9 1.6 1.6 1.5 1.4 1.6 1.6 1.5 1.5 1.4 1.5 1.2
+     [37] 1.3 1.4 1.3 1.5 1.3 1.3 1.3 1.6 1.9 1.4 1.6 1.4 1.5 1.4 4.7 4.5 4.9 4.0
+     [55] 4.6 4.5 4.7 3.3 4.6 3.9 3.5 4.2 4.0 4.7 3.6 4.4 4.5 4.1 4.5 3.9 4.8 4.0
+     [73] 4.9 4.7 4.3 4.4 4.8 5.0 4.5 3.5 3.8 3.7 3.9 5.1 4.5 4.5 4.7 4.4 4.1 4.0
+     [91] 4.4 4.6 4.0 3.3 4.2 4.2 4.2 4.3 3.0 4.1 6.0 5.1 5.9 5.6 5.8 6.6 4.5 6.3
+    [109] 5.8 6.1 5.1 5.3 5.5 5.0 5.1 5.3 5.5 6.7 6.9 5.0 5.7 4.9 6.7 4.9 5.7 6.0
+    [127] 4.8 4.9 5.6 5.8 6.1 6.4 5.6 5.1 5.6 6.1 5.6 5.5 4.8 5.4 5.6 5.1 5.1 5.9
+    [145] 5.7 5.2 5.0 5.2 5.4 5.1
+    [1] "Here's column 4"
+      [1] 0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 0.2 0.2 0.1 0.1 0.2 0.4 0.4 0.3
+     [19] 0.3 0.3 0.2 0.4 0.2 0.5 0.2 0.2 0.4 0.2 0.2 0.2 0.2 0.4 0.1 0.2 0.2 0.2
+     [37] 0.2 0.1 0.2 0.2 0.3 0.3 0.2 0.6 0.4 0.3 0.2 0.2 0.2 0.2 1.4 1.5 1.5 1.3
+     [55] 1.5 1.3 1.6 1.0 1.3 1.4 1.0 1.5 1.0 1.4 1.3 1.4 1.5 1.0 1.5 1.1 1.8 1.3
+     [73] 1.5 1.2 1.3 1.4 1.4 1.7 1.5 1.0 1.1 1.0 1.2 1.6 1.5 1.6 1.5 1.3 1.3 1.3
+     [91] 1.2 1.4 1.2 1.0 1.3 1.2 1.3 1.3 1.1 1.3 2.5 1.9 2.1 1.8 2.2 2.1 1.7 1.8
+    [109] 1.8 2.5 2.0 1.9 2.1 2.0 2.4 2.3 1.8 2.2 2.3 1.5 2.3 2.0 2.0 1.8 2.1 1.8
+    [127] 1.8 1.8 2.1 1.6 1.9 2.0 2.2 1.5 1.4 2.3 2.4 1.8 1.8 2.1 2.4 2.3 1.9 2.3
+    [145] 2.5 2.3 1.9 2.0 2.3 1.8
+    [1] "Here's column 5"
+      [1] setosa     setosa     setosa     setosa     setosa     setosa    
+      [7] setosa     setosa     setosa     setosa     setosa     setosa    
+     [13] setosa     setosa     setosa     setosa     setosa     setosa    
+     [19] setosa     setosa     setosa     setosa     setosa     setosa    
+     [25] setosa     setosa     setosa     setosa     setosa     setosa    
+     [31] setosa     setosa     setosa     setosa     setosa     setosa    
+     [37] setosa     setosa     setosa     setosa     setosa     setosa    
+     [43] setosa     setosa     setosa     setosa     setosa     setosa    
+     [49] setosa     setosa     versicolor versicolor versicolor versicolor
+     [55] versicolor versicolor versicolor versicolor versicolor versicolor
+     [61] versicolor versicolor versicolor versicolor versicolor versicolor
+     [67] versicolor versicolor versicolor versicolor versicolor versicolor
+     [73] versicolor versicolor versicolor versicolor versicolor versicolor
+     [79] versicolor versicolor versicolor versicolor versicolor versicolor
+     [85] versicolor versicolor versicolor versicolor versicolor versicolor
+     [91] versicolor versicolor versicolor versicolor versicolor versicolor
+     [97] versicolor versicolor versicolor versicolor virginica  virginica 
+    [103] virginica  virginica  virginica  virginica  virginica  virginica 
+    [109] virginica  virginica  virginica  virginica  virginica  virginica 
+    [115] virginica  virginica  virginica  virginica  virginica  virginica 
+    [121] virginica  virginica  virginica  virginica  virginica  virginica 
+    [127] virginica  virginica  virginica  virginica  virginica  virginica 
+    [133] virginica  virginica  virginica  virginica  virginica  virginica 
+    [139] virginica  virginica  virginica  virginica  virginica  virginica 
+    [145] virginica  virginica  virginica  virginica  virginica  virginica 
+    Levels: setosa versicolor virginica
+
+We can expand this by performing some sort of operation on the columns
+that we are extracting. Let’s now take the mean of each column before
+printing it, but this time only iterate up to i = 4, since we know that
+column 5 i the column with species names in them:
+
+``` r
+for (i in 1:4) {
+  
+  # This prints out a statement saying "Here's column i", but the i gets replaced with the number that it's currently at
+  print(paste("Here's column",i))
+  
+  # This prints out column i
+  print(mean(iris[,i]))
+}
+```
+
+    [1] "Here's column 1"
+    [1] 5.843333
+    [1] "Here's column 2"
+    [1] 3.057333
+    [1] "Here's column 3"
+    [1] 3.758
+    [1] "Here's column 4"
+    [1] 1.199333
+
+Now we have a mean value for every column. We could have easily done
+this with our across function too:
+
+``` r
+iris %>% 
+    summarize(across(.cols = 1:4, 
+                   .fns = mean))
+```
+
+      Sepal.Length Sepal.Width Petal.Length Petal.Width
+    1     5.843333    3.057333        3.758    1.199333
+
+### Q2.6 Which do you prefer?
+
+Which makes more sense to you: summarizing with a for loop or with the
+summarize/across functions?
 
 ------------------------------------------------------------------------
+
+A nice thing to remember with for loops is that you can do many things
+within the loop. For instance, here I will create a vector of column
+names and print out the “i”th element. Since i is going to equal the
+same number when I print out the column name vs the column values, it
+will match up nicely.
+
+``` r
+for (i in 1:4) {
+  # Fetch the column names of the dataframe, store in a vector "names"
+  names <- colnames(iris)
+  
+  # Print out the "i"th element of the vector to print alongside the output
+  print(names[i])
+  
+  # This prints out column i
+  print(mean(iris[,i]))
+}
+```
+
+    [1] "Sepal.Length"
+    [1] 5.843333
+    [1] "Sepal.Width"
+    [1] 3.057333
+    [1] "Petal.Length"
+    [1] 3.758
+    [1] "Petal.Width"
+    [1] 1.199333
+
+------------------------------------------------------------------------
+
+``` r
+# Create a vector of species names
+spp_names <- unique(iris$Species)
+
+for (i in 1:length(spp_names)) {
+  
+filt_data <- iris %>% 
+  filter(Species == spp_names[i])
+
+filt_data %>% 
+  ggplot(aes(x = Petal.Length,
+             y = Petal.Width)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  lims(x = c(0,8),
+       y = c(0,3))
+
+print(head(filt_data))
+  
+}
+```
+
+      Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+    1          5.1         3.5          1.4         0.2  setosa
+    2          4.9         3.0          1.4         0.2  setosa
+    3          4.7         3.2          1.3         0.2  setosa
+    4          4.6         3.1          1.5         0.2  setosa
+    5          5.0         3.6          1.4         0.2  setosa
+    6          5.4         3.9          1.7         0.4  setosa
+      Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
+    1          7.0         3.2          4.7         1.4 versicolor
+    2          6.4         3.2          4.5         1.5 versicolor
+    3          6.9         3.1          4.9         1.5 versicolor
+    4          5.5         2.3          4.0         1.3 versicolor
+    5          6.5         2.8          4.6         1.5 versicolor
+    6          5.7         2.8          4.5         1.3 versicolor
+      Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
+    1          6.3         3.3          6.0         2.5 virginica
+    2          5.8         2.7          5.1         1.9 virginica
+    3          7.1         3.0          5.9         2.1 virginica
+    4          6.3         2.9          5.6         1.8 virginica
+    5          6.5         3.0          5.8         2.2 virginica
+    6          7.6         3.0          6.6         2.1 virginica
