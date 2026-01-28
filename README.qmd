@@ -544,7 +544,7 @@ Now we have a mean value for every column. We could have easily done this with o
 
 ```{r}
 iris %>% 
-    summarize(across(.cols = 1:4, 
+  summarize(across(.cols = 1:4, 
                    .fns = mean))
 ```
 
@@ -571,25 +571,40 @@ for (i in 1:4) {
 
 ------------------------------------------------------------------------
 
+### Q2.7 Annotate this code with what you think it's doing
+
+I have created a chunk of code here that does a few things. For this question, go through and on each line where you see a pound sign, comment what you think each line is doing. I've done the first for you as an example. Remember that you can highlight small bits of code to run those particular portions (e.g. highlighting `iris$Species` within the `unique()` function and hitting run will only run `iris$Species`), even within a for loop.
+
 ```{r}
 
-# Create a vector of species names
+# Store a vector of unique species names from the Species column of Iris
 spp_names <- unique(iris$Species)
 
+#
 for (i in 1:length(spp_names)) {
   
-filt_data <- iris %>% 
-  filter(Species == spp_names[i])
-
-filt_data %>% 
-  ggplot(aes(x = Petal.Length,
-             y = Petal.Width)) +
-  geom_point() +
-  geom_smooth(method = "lm") +
-  lims(x = c(0,8),
-       y = c(0,3))
-
-print(head(filt_data))
+  filt_data <- iris %>% 
+    #
+    filter(Species == spp_names[i])
+  
+  #
+  plot <- filt_data %>% 
+    #
+    ggplot(aes(x = Petal.Length,
+               y = Petal.Width)) +
+    #
+    geom_point() +
+    #
+    geom_smooth(method = "lm") +
+    #
+    lims(x = c(0,8),
+         y = c(0,3)) +
+    #
+    ggtitle(paste("Species:", spp_names[i]))
+  
+  #
+  print(plot)
+  
   
 }
 
