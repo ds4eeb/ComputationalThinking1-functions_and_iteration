@@ -113,6 +113,8 @@ add_one(x = 10)
 
 Our very first homemade function! Nice!
 
+------------------------------------------------------------------------
+
 Let’s make this a little more complicated and add in a second argument.
 This function will take two numbers as input and add them together.
 Let’s call those arguments `x` and `y`. Separate them with a comma
@@ -137,12 +139,6 @@ add_together  <- function(x, y){
 Feed our new function `add_together()` two numbers: Add together a 3 and
 a 5 within the function
 
-``` r
-add_together(3,5)
-```
-
-    [1] 8
-
 ------------------------------------------------------------------------
 
 ### Q1.2 Feed our new function a number and a character string
@@ -158,9 +154,7 @@ you add together 3 and “five”, substitute the `{r}` for `{r eval=FALSE}`
 so that it does not evaluate this chunk of code (click “Source” instead
 of “Visual” in the top left of the document in order to see the `{r}`)
 
-``` r
-add_together(3,"five")
-```
+------------------------------------------------------------------------
 
 You can access the source code for a function by typing it’s name
 without parentheses and clicking enter.
@@ -187,28 +181,11 @@ $$(x - y)^2/z$$
 Then, run that equation with `x = 5`, `y = 2`, and `z = 9`. What is the
 output?
 
-``` r
-math_time  <- function(x, y, z){
-  
-  # Add x and y together, store as the object "output"
-  output <- (x - y)^2/z
-  
-  # Print out whatever is stored in "output"
-  return(output)
-  
-} 
-
-# Output is 1
-math_time(5, 2, 9)
-```
-
-    [1] 1
-
 ------------------------------------------------------------------------
 
 ## Working with vectors as input
 
-Let’s use vectors as input instead of simply numbers. Let’s write a
+Let’s use vectors as input instead of just numbers. Let’s write a
 function to convert a vector of weights from pounds into kilograms. To
 go from pounds to kilograms, we multiply the vector in pounds by
 \~0.454. This multiplies every element in the vector by 0.454.
@@ -229,15 +206,21 @@ lbs_to_kg  <- function(weights){
 } 
 ```
 
-Next, let’s make a vector of bison weights to feed into the function:
+Next, let’s make a vector of bison weights
 
 ``` r
 bison <- c(1000, 800, 1200, 1400)
+```
 
+And feed it to the function:
+
+``` r
 lbs_to_kg(weights = bison)
 ```
 
     [1] 454.0 363.2 544.8 635.6
+
+Each element was multiplied by 0.454!
 
 ------------------------------------------------------------------------
 
@@ -246,7 +229,7 @@ lbs_to_kg(weights = bison)
 Here’s a tricky one: Write a function called `deviation` that takes a
 vector as an argument. Then, make that function:
 
-1)  Calculate an mean value for the vector
+1)  Calculate a mean value for the vector
 
 2)  Subtract that mean from each element in the vector
 
@@ -254,20 +237,6 @@ vector as an argument. Then, make that function:
 
 After you’ve created the function, feed the `bison` vector to it as
 input.
-
-``` r
-deviation <- function(vector){
-  
-  mean <- mean(vector)
-  output <- vector - mean
-  return(output)
-  
-}
-
-deviation(bison)
-```
-
-    [1] -100 -300  100  300
 
 I hope that you are starting to see a glimmer of the utility of writing
 functions; they can make things much easier for us, while also making us
@@ -277,21 +246,25 @@ feel like super cool coders.
 
 # 2. Iteration
 
-Iteration is repeatedly performing the same action on different objects.
-We’ve already done this in a couple ways:
+Iteration in R means repeatedly performing the same action but in
+different ways or on different “things”. We’ve already snuck this in in
+a couple ways:
 
-- facet_wrap() and facet_grid() draws a plot for each subset variable.
-- group_by() plus summarize() computes summary statistics for each
-  grouped variable.
+- facet_wrap() and facet_grid() draw a plot for each subset variable.
+- group_by() and summarize() compute summary statistics for each grouped
+  variable.
 
 ------------------------------------------------------------------------
 
-## Across
+## across()
 
-Let’s look at the built-in iris morphometric data. Take a look at the
-help page to familiarize yourself with the columns.
+We’ll start with yet another dplyr function, `across()`. To illustrate
+iterating using the `across()` function, let’s look at the built-in iris
+flower morphometric data. Take a look at the help page to familiarize
+yourself with the columns.
 
 ``` r
+# Look at the first 6 rows of iris
 head(iris)
 ```
 
@@ -377,9 +350,14 @@ iris %>%
     2 versicolor         5.94        2.77         4.26       1.33 
     3 virginica          6.59        2.97         5.55       2.03 
 
+------------------------------------------------------------------------
+
 There are two additional selection techniques that are particularly
-useful for `across()`: `everything()` and `where()`. `everything()` is
-straightforward: it selects every (non-grouping) column:
+useful for selecting columns in `across()`: `everything()` and
+`where()`.
+
+`everything()` is straightforward: it selects every (non-grouping)
+column:
 
 ``` r
 iris %>%
@@ -403,8 +381,8 @@ Note the grouping column(s) (in this case `Species`) are not included in
 ### Q2.2 Summarize to calculate the median across all columns
 
 Group the `iris` data by `species` and calculate a `median` across all
-of the columns. What function do you think you should use to calculate a
-median?
+of the columns. (What function do you think you should use to calculate
+a median?)
 
 ------------------------------------------------------------------------
 
@@ -412,7 +390,7 @@ median?
 columns based on their type:
 
 - `where(is.numeric)` selects all numeric columns.
-- `where(is.character)` selects all string columns.
+- `where(is.character)` selects all character string columns.
 - `where(is.Date)` selects all date columns.
 - `where(is.POSIXct)` selects all date-time columns.
 - `where(is.logical)` selects all logical columns.
@@ -435,10 +413,11 @@ iris %>%
 
 ### Q2.3 Summarize to calculate the mean across all numeric columns in the cereal data
 
-Read in the `cereal` data that we worked with back in the first data
-wrangling lesson. It is already stored in the `data` folder of this
-repository. Group the data by manufacturer and calculate a mean value
-for all of the numeric columns in that dataset.
+1)  Read in the `cereal` data that we worked with back in the first data
+    wrangling lesson. It is already stored in the `data` folder of this
+    repository.
+2)  Group the data by manufacturer and calculate a mean value for all of
+    the *numeric* columns in that dataset.
 
 ------------------------------------------------------------------------
 
@@ -451,11 +430,11 @@ defined number of times is the for loop. We have been teaching you how
 to code largely using `tidyverse` functions; for loops are not
 particularly common when using `tidyverse` because the creators of it
 built functions that allow us to do the same or similar iterative tasks
-in more intuitive ways. For instance, `across()` from above, as well as
+in more intuitive ways. For instance, `across()`, from above, as well as
 `group_by()`/`summarize()` and `facet_wrap()` can accomplish what used
-to be only doable with for loops (or writing your own functions).Despite
-this, for loops are a fundamental part of all coding languages, and so
-we will introduce them here!
+to be only doable with for loops (or writing your own functions).
+Despite this, for loops are a fundamental part of all coding languages,
+and so we will introduce them here!
 
 The most basic example of a for loop is:
 
@@ -473,11 +452,12 @@ for (i in 1:5) {
     [1] 5
 
 This is a dynamic bit of code where an “index” `i` is iteratively
-replaced by each value in the vector `1:5` (which is 1, 2, 3, 4, 5). To
-dissect what the loop is doing: because the first value in our sequence
-`1:5` is 1, the loop starts by replacing i with 1 and runs everything
-between the { }. Loops typically use i as the counter, short for
-iteration, but you are free to use whatever you like, such as `x`,
+replaced by each value in the vector `1:5` (which is 1, 2, 3, 4, 5).
+
+Let’s dissect what the loop is doing: because the first value in our
+sequence `1:5` is 1, the loop starts by replacing i with 1 and runs
+everything between the { }. Loops typically use i as the counter, short
+for iteration, but you are free to use whatever you like, such as `x`,
 `number`, or `rhubarb`.
 
 We could do this all manually of course. To manually run the first two
@@ -535,13 +515,13 @@ the index `i`, then prints out that output
 One fun way we can use a for loop is by iteratively simulating data.
 Let’s simulate population growth using the equation:
 
-\$ N\[t\] = N\[t - 1\] \* lambda\$
+$$ N[t] = N[t - 1] * lambda $$
 
 The population at time `t` is `N[t]`, and we can calculate it by taking
-the population from the previous time step `t-1`, which is equal to
-`N[t-1]`, and multiplying that by a growth rate `lambda`. Think of this
-as if you had 100 individuals in time `t-1` and you population was
-growing by 20%, `lambda` would equal 1.2, so your poplation at time `t`
+the population from the previous time step `t-1`, which is represented
+by `N[t-1]`, and multiplying that by a growth rate `lambda`. Think of
+this as if you had 100 individuals in time `t-1` and you population was
+growing by 20%, `lambda` would equal 1.2, so your population at time `t`
 would be: `100*1.2 = 120`. Let’s simulate this over 20 time steps.
 
 ``` r
@@ -573,7 +553,7 @@ When we use square brackets after a vector, e.g. `N[5]`, we are able to
 reference that element of the vector, in this case the 5th value in
 vector N. Just to demonstrate, if we now ask for the 5th element in
 vector `N`, we will get zero, whereas if we ask for the first, we will
-get 300
+get 100
 
 ``` r
 N[5]
@@ -615,7 +595,7 @@ plot it to look at
 ``` r
 # Store the data output as a dataframe for plotting
 popn_data <- tibble(years = 1:years, # Make the years column = 1, 2, 3, ..., 20
-                    popn = N) # Make the population column the corresponding population that we calculated
+                    popn = N) # Make the population column the corresponding population vector that we calculated
 ```
 
 ``` r
@@ -625,11 +605,11 @@ popn_data %>%
   geom_point()
 ```
 
-![](README_files/figure-commonmark/unnamed-chunk-31-1.png)
+![](README_files/figure-commonmark/unnamed-chunk-33-1.png)
 
 ------------------------------------------------------------------------
 
-### Q2.5 Rerun the for loop with the following parameters:
+### Q2.5a Rerun the for loop with the following parameters:
 
 Copy and paste the for loop from above, but change the initial
 parameters so that:
@@ -638,23 +618,9 @@ parameters so that:
 - The growth rate = 0.95
 - The number of years to iterate over = 50
 
+### Q2.5b Plot the data and interpret
+
 Plot your data and describe how the population is changing.
-
-``` r
-N0 = 300  #initial population size
-
-years = 50  #number of years into the future
-
-N = vector(length = years)  # create an empty vector to store pop. sizes
-
-N[1] = N0  #initial population size should be the first N
-
-lambda = 0.95  #growth rate
-
-for (t in 2:50) {
-  N[t] = N[t - 1] * lambda # Apply the equation
-}
-```
 
 ------------------------------------------------------------------------
 
@@ -728,7 +694,8 @@ us what column we’re on
 ``` r
 for (i in 1:5) {
   
-  # This prints out a statement saying "Here's column i", but the i gets replaced with the number that it's currently at
+  # This prints out a statement saying "Here's column i", 
+  #but the i gets replaced with the number that it's currently at
   print(paste("Here's column",i))
   
   # This prints out column i
@@ -804,10 +771,10 @@ for (i in 1:5) {
     [145] virginica  virginica  virginica  virginica  virginica  virginica 
     Levels: setosa versicolor virginica
 
-We can expand this by performing some sort of operation on the columns
-that we are extracting. Let’s now take the mean of each column before
-printing it, but this time only iterate up to i = 4, since we know that
-column 5 i the column with species names in them:
+We can expand on this by performing some sort of operation on the
+columns that we are extracting. Let’s now take the mean of each column
+before printing it, but this time only iterate up to i = 4, since we
+know that column 5 is the column with species names in them:
 
 ``` r
 for (i in 1:4) {
@@ -880,49 +847,54 @@ for (i in 1:4) {
 
 ### Q2.7 Annotate this code with what you think it’s doing
 
-I have created a chunk of code here that does a few things. For this
-question, go through and on each line where you see a pound sign,
+For the last question, I have created a chunk of code here that does a
+few things. Go through and on each line where you see a pound sign,
 comment what you think each line is doing. I’ve done the first for you
 as an example. Remember that you can highlight small bits of code to run
-those particular portions (e.g. highlighting `iris$Species` within the
-`unique()` function and hitting run will only run `iris$Species`), even
-within a for loop.
+those particular portions, even within a for loop (e.g. highlighting
+`iris$Species` within the `unique()` function and hitting run will only
+run `iris$Species` or highlighting and running `spp_names` will show you
+what is stored in `spp_names`).
 
 ``` r
 # Store a vector of unique species names from the Species column of Iris
 spp_names <- unique(iris$Species)
 
-#
+# 
 for (i in 1:length(spp_names)) {
   
   filt_data <- iris %>% 
-    #
+    # 
     filter(Species == spp_names[i])
   
-  #
+  # 
   plot <- filt_data %>% 
-    #
+    # 
     ggplot(aes(x = Petal.Length,
                y = Petal.Width)) +
-    #
+    # 
     geom_point() +
-    #
+    # 
     geom_smooth(method = "lm") +
-    #
+    # 
     lims(x = c(0,8),
          y = c(0,3)) +
-    #
+    # 
     ggtitle(paste("Species:", spp_names[i]))
   
-  #
+  # 
   print(plot)
-  
-  
 }
 ```
 
-![](README_files/figure-commonmark/unnamed-chunk-41-1.png)
+![](README_files/figure-commonmark/unnamed-chunk-44-1.png)
 
-![](README_files/figure-commonmark/unnamed-chunk-41-2.png)
+![](README_files/figure-commonmark/unnamed-chunk-44-2.png)
 
-![](README_files/figure-commonmark/unnamed-chunk-41-3.png)
+![](README_files/figure-commonmark/unnamed-chunk-44-3.png)
+
+------------------------------------------------------------------------
+
+Congrats on getting to the end!!!
+
+------------------------------------------------------------------------
