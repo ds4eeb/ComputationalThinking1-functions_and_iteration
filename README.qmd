@@ -9,41 +9,17 @@ editor: source
 
 # Overview
 
-Welcome! This is the first "computational thinking" lesson, which is about two
-topics: writing your own functions and performing iterations.
-
-### Functions:
-
-
-
-
-### Iteration:
-
+Welcome! This is the first "computational thinking" lesson, which is about two topics: writing your own functions and performing iterations. I will go over very basic examples of each, but know that these are topics that are very useful if when thinking about using R for "programming" sorts of tasks.
 
 ------------------------------------------------------------------------
 
-You will submit two outputs for this activity:
+You will submit one output for this activity:
 
-1.  A **PDF** of a rendered Quarto document with all of your R code.
-    Please create a new Quarto document (e.g. don't use this
-    `README.qmd`), include all of the code that appears in this
-    document, in addition to adding your own code and **answers to all
-    of the questions** in the "Q#" sections. Submit this through
-    Gradescope.
+1.  A **PDF** of a rendered Quarto document with all of your R code. Please create a new Quarto document (e.g. don't use this `README.qmd`), include all of the code that appears in this document, in addition to adding your own code and **answers to all of the questions** in the "Q#" sections. Submit this through Gradescope.
 
-2.  A plot and your answers from the final "Energy production" section.
-    Submit that content to the google slide below:
-    <https://docs.google.com/presentation/d/1AJVu0eq5-OoRGi4UlBervrqKbFHOINvAB-8u0JaFzYM/edit?usp=sharing>
+*If you have trouble submitting as a PDF, please ask Calvin or Malin for help. If we still can't solve it, you can submit the .qmd file instead.*
 
-*If you have trouble submitting as a PDF, please ask Calvin or Malin for
-help. If we still can't solve it, you can submit the .qmd file instead.*
-
-A reminder: **Please label the code** in your final submission in two
-ways: 1) denote your answers to each question using headers that
-correspond to the question you're answering and 2) thoroughly "comment"
-your code: remember, this means annotating your code directly by typing
-descriptions of what each line does after a `#`. This will help future
-you!
+A reminder: **Please label the code** in your final submission in two ways: 1) denote your answers to each question using headers that correspond to the question you're answering and 2) thoroughly "comment" your code: remember, this means annotating your code directly by typing descriptions of what each line does after a `#`. This will help future you!
 
 ------------------------------------------------------------------------
 
@@ -52,61 +28,299 @@ Let's start by reading in the relevant packages
 ```{r}
 library(tidyverse)
 library(here)
-
 ```
 
 ------------------------------------------------------------------------
-
 
 # 1. Functions
 
 Functions take the form of
 
-```default
+``` default
 my.function  <- function(arg1, arg2, ... ){
 
   the function's code (body) is nestled between curly braces
   
   return(object)
   
-}
+} 
+```
+
+To create a function, we start by assigning the function a name with the assignment operator, such as `my.function <-`. This names the function. To save a function, it must be named.
+
+Then, we use the `function()` function (yes, there's a function called `function`) to tell R it will be a function. We list the **arguments** in our function between parentheses and include any default values. These are the function’s inputs. Then, in between two curly braces { }, we enter R code that tells R what to do with the inputs, and what to return to the function user (the output).
+
+## Working with single values as input
+
+------------------------------------------------------------------------
+
+Let's start out with a very simple mathematical example and write a function that takes a number as input, adds 1 to that number, and then returns that new output to us.
+
+-   Let's call the function `add_one`.
+
+-   Within the brackets of the function, we will supply only one argument: `x`. `x` will be the number that gets taken in as input.
+
+-   Within the curly brackets, we will tell the function what to do with `x`. In this case, we will add 1 to it and store it as a data object called `output`.
+
+-   Lastly, let's tell the function to return our `output`, aka just print out the results that are stored in the data object
+
+```{r}
+# Create a new function called add_one
+# x will be the only input to the function
+add_one  <- function(x){
+
+  # Add x and 1 together, store as the object "output"
+  output <- x + 1
+  
+  # Print out whatever is stored in "output"
+  return(output)
+  
+} 
+```
+
+Look in your Environment tab in the top-right; a function called `add_one` should have popped up. That means our function is stored and ready to go!
+
+Let's use our function. We will supply the number `10` to our function as input.
+
+```{r}
+# Supply 10 to our function
+add_one(x = 10)
 
 ```
 
+Our very first homemade function! Nice!
 
-To create a function, we start by assigning the function a name with the assignment operator, such as my.function <-. This names the function; if the name is omitted, the function is called an anonymous function (functions without names). To save a function, it must be named.
+Let's make this a little more complicated and add in a second argument. This function will take two numbers as input and add them together. Let's call those arguments `x` and `y`. Separate them with a comma.
 
-Then, we use the function function (you read that correctly!) to tell R it will be a function. We list the arguments in our function between parentheses and include any default values. These are the function’s inputs. Then, in between two curly braces { }, we enter R code that tells R what to do with the inputs, and what to return to the function user (the output).
+```{r}
+# Create a new function called add_together
+# x and y will be the two arguments to the function
+add_together  <- function(x, y){
 
--------
+  # Add x and y together, store as the object "output"
+  output <- x + y
+  
+  # Print out whatever is stored in "output"
+  return(output)
+  
+} 
+```
 
-## 1.1 Working with single values as input
+### Q1.1 Feed our new function two numbers
 
+Feed our new function `add_together()` two numbers: Add together a 3 and a 5 within the function
 
+```{r}
+add_together(3,5)
+```
 
--------
+------------------------------------------------------------------------
 
-## 1.2 Working with vectors as input
+### Q1.2 Feed our new function a number and a character string
 
--------
+What happens if a function receives unexpected input? Feed our new function `add_together()` 3 and "five" instead of 3 and 5. Copy and paste the error code you receive and describe what you think it's telling you.
 
-## 1.3 Working with data frames as input
+Important for QMD: When you try to render this document, Quarto will get mad that you're running code that doesn't work. In the code chunk where you add together 3 and "five", substitute the `{r}` for `{r eval=FALSE}` so that it does not evaluate this chunk of code (click "Source" instead of "Visual" in the top right of the document in order to see the `{r}`)
 
--------
+```{r eval=FALSE}
+add_together(3,"five")
+```
+
+You can access the source code for a function by typing it's name without parentheses and clicking enter.
+
+```{r}
+add_together
+```
+
+------------------------------------------------------------------------
+
+### Q1.3 Create your own function!
+
+Time to try it yourself! First, create a new function called `math_time` with three arguments, x, y, and z, that executes this equation:
+
+$$(x - y)^2/z$$
+
+Then, run that equation with `x = 5`, `y = 2`, and `z = 9`. What is the output?
+
+```{r}
+math_time  <- function(x, y, z){
+
+  # Add x and y together, store as the object "output"
+  output <- (x - y)^2/z
+  
+  # Print out whatever is stored in "output"
+  return(output)
+  
+} 
+
+# Output is 1
+math_time(5, 2, 9)
+
+```
+
+------------------------------------------------------------------------
+
+## Working with vectors as input
+
+Let's use vectors as input instead of simply numbers. Let's write a function to convert a vector of weights from pounds into kilograms. To go from pounds to kilograms, we multiply the vector in pounds by \~0.454. This multiplies every element in the vector by 0.454.
+
+Just like before, we tell the function what we want our argument(s) to be. Let's supply one argument called `weights`.
+
+```{r}
+# Create a function called lbs_to_kg that takes a data object 'weights' as input
+lbs_to_kg  <- function(weights){
+
+  # Multiply weights by 0.454, store as the object "output"
+  output <- weights*0.454
+  
+  # Print out whatever is stored in "output"
+  return(output)
+  
+} 
+```
+
+Next, let's make a vector of bison weights to feed into the function:
+
+```{r}
+bison <- c(1000, 800, 1200, 1400)
+
+lbs_to_kg(weights = bison)
+
+```
+
+------------------------------------------------------------------------
+
+### Q1.4 Calculate deviation from a mean
+
+Here's a tricky one: Write a function called `deviation` that takes a vector as an argument. Then, make that function:
+
+1)  Calculate an mean value for the vector
+
+2)  Subtract that mean from each element in the vector
+
+3)  Return the output from 2)
+
+After you've created the function, feed the `bison` vector to it as input.
+
+```{r}
+
+deviation <- function(vector){
+  
+  mean <- mean(vector)
+  output <- vector - mean
+  return(output)
+  
+}
+
+deviation(bison)
+
+```
+
+I hope that you are starting to see a glimmer of the utility of writing functions; they can make things much easier for us, while also making us feel like super cool coders.
+
+------------------------------------------------------------------------
 
 # 2. Iteration
 
+Iteration is repeatedly performing the same action on different objects. We've already done this in a couple ways:
+
+-   facet_wrap() and facet_grid() draws a plot for each subset variable.
+-   group_by() plus summarize() computes summary statistics for each grouped variable.
+
+------------------------------------------------------------------------
+
+## For-loops
+
+------------------------------------------------------------------------
+
+## Across
+
+Let's look at the built-in iris morphometric data. Take a look at the help page to familiarize yourself with the columns. 
+
+```{r}
+head(iris)
+```
+
+### Q2.1: What are the units that the sepal and petal columns are measured in?
+
+
 -------
 
+Let's say that we want to calculate means for all four of these columns, seprately for each species. In the last lesson I asked you to first pivot these variables to long format, and then grouped those variables and summarized them to calculate a mean, but sometimes having the columns pivoted all together in a single column doesn't make sense. For instance, here, we might want `Petal.length` and `Petal.width` to be distinct columns that can be related to one another (for instance in a graph) comparing the two).
 
-## 2.1 For-loops
+We could summarize each column separately by typing out the equation for each column:
 
--------
+```{r}
+iris %>% 
+  group_by(Species) %>% 
+  summarize(Sepal.Length = mean(Sepal.Length),
+            Sepal.Width = mean(Sepal.Width),
+            Petal.Length = mean(Petal.Length),
+            Petal.Width = mean(Petal.Width))
+```
 
-## 2.2 Across
+You can imagine that this will get very tedious if you have tens or even hundreds of columns. Instead, you can use `across()`, which iterates across each column that you specify.
 
--------
+You’ll use the first two arguments to `across()` every time you use it: the first argument, `.cols`, specifies which columns you want to iterate over, and the second argument, `.fns`, specifies what to do with each column. 
+
+```{r}
+iris %>%
+  group_by(Species) %>% 
+  summarize(across(.cols = c(Sepal.Length, Sepal.Width, Petal.Length, Petal.Width), 
+                   .fns = mean))
+```
+
+As a sneaky shortcut, you can also say `Sepal.Length:Petal.Width` to indicate that you want to iterate across all columns from `Sepal.Length` to `Petal.Width`.
+
+```{r}
+iris %>%
+  group_by(Species) %>% 
+  summarize(across(.cols = Sepal.Length:Petal.Width, 
+                   .fns = mean))
+```
+
+There are two additional selection techniques that are particularly useful for `across()`: `everything()` and `where()`. everything() is straightforward: it selects every (non-grouping) column:
+
+
+```{r}
+iris %>%
+  group_by(Species) %>% 
+  summarize(across(.cols = everything(), 
+                   .fns = mean))
+```
+
+Note grouping column(s) (`Species`) are not included in `across()`, because they’re automatically preserved by `summarize()`.
+
+### Q2.2 Summarize to calculate the median across all columns
+
+Question text here
+
+------------
+
+`where()` allows you to select columns based on their type:
+
+-   `where(is.numeric)` selects all numeric columns.
+-   `where(is.character)` selects all string columns.
+-   `where(is.Date)` selects all date columns.
+-   `where(is.POSIXct)` selects all date-time columns.
+-   `where(is.logical)` selects all logical columns.
+
+
+```{r}
+iris %>%
+  group_by(Species) %>% 
+  summarize(across(.cols = where(is.numeric), 
+                   .fns = mean))
+```
+
+------------------------------------------------------------------------
+
+### Q2.3 Summarize to calculate the mean across all numeric columns in the cereal data
+
+Read in the cereal data that we worked with back in the first data wrangling lesson. Group the data by manufacturer and calculate a mean value for all of the numeric columns in that dataset
+
+--------
 
 # 3. Using LLMs to get R help
 
--------
+------------------------------------------------------------------------
